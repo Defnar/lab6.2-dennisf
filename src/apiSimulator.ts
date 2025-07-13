@@ -15,7 +15,9 @@ export function fetchProductCatalog(): Promise<Product[]> {
           { id: 4, name: "Laptop stickers", price: 15 },
         ]);
       } else {
-        reject("Failed to fetch product catalog");
+        reject(() => {
+          new networkError("Failed to fetch product catalog");
+        });
       }
     }, 1000);
   });
@@ -54,7 +56,10 @@ export function fetchProductReviews(productId: number): Promise<string[]> {
     setTimeout(() => {
       if (Math.random() < 0.9) {
         resolve(fullReviewArray[productId - 1]);
-      } else reject(`Failed to fetch reviews for product ID ${productId}`);
+      } else
+        reject(() => {
+          new dataError(`Failed to fetch reviews for product ID ${productId}`);
+        });
     }, 1500);
   });
 }
@@ -71,8 +76,24 @@ export function fetchSalesReport(): Promise<salesReport> {
       if (Math.random() < 0.9) {
         resolve({ totalSales: 10100, unitsSold: 77, averagePrice: 131.17 });
       } else {
-        reject("Failed to fetch sales report");
+        reject(() => {
+          new dataError("Failed to fetch sales report");
+        });
       }
     }, 1000);
   });
+}
+
+class networkError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "networkError";
+  }
+}
+
+class dataError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "dataError";
+  }
 }
