@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.dataError = exports.networkError = void 0;
 exports.fetchProductCatalog = fetchProductCatalog;
 exports.fetchProductReviews = fetchProductReviews;
 exports.fetchSalesReport = fetchSalesReport;
@@ -15,7 +16,7 @@ function fetchProductCatalog() {
                 ]);
             }
             else {
-                reject("Failed to fetch product catalog");
+                reject(new networkError("Failed to fetch product catalog"));
             }
         }, 1000);
     });
@@ -53,7 +54,7 @@ function fetchProductReviews(productId) {
                 resolve(fullReviewArray[productId - 1]);
             }
             else
-                reject(`Failed to fetch reviews for product ID ${productId}`);
+                reject(new dataError(`Failed to fetch reviews for product ID ${productId}`));
         }, 1500);
     });
 }
@@ -64,8 +65,22 @@ function fetchSalesReport() {
                 resolve({ totalSales: 10100, unitsSold: 77, averagePrice: 131.17 });
             }
             else {
-                reject("Failed to fetch sales report");
+                reject(new dataError("Failed to fetch sales report"));
             }
         }, 1000);
     });
 }
+class networkError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "networkError";
+    }
+}
+exports.networkError = networkError;
+class dataError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "dataError";
+    }
+}
+exports.dataError = dataError;

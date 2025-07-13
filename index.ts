@@ -1,4 +1,4 @@
-import { fetchProductCatalog, fetchProductReviews, fetchSalesReport } from "./src/apiSimulator";
+import { fetchProductCatalog, fetchProductReviews, fetchSalesReport, dataError, networkError } from "./src/apiSimulator";
 
 function fetchData() {
   fetchProductCatalog()
@@ -24,7 +24,13 @@ function fetchData() {
       console.log(`Sales Report: Total Sales: ${salesReport.totalSales}, Units Sold: ${salesReport.unitsSold}, Average price: ${salesReport.averagePrice}`);
     })
     .catch((e) => {
-        console.error(e);
+        if (e instanceof dataError) {
+          console.error("Data Error:", e.message);
+        }
+        else if (e instanceof networkError) {
+          console.error("Network Error: ", e.message);
+        }
+        else console.error("Unknown Error: ", e.message);
     })
     .finally(() =>{
       console.log("All apis have been attempted")
