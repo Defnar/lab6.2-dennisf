@@ -1,46 +1,6 @@
-import { fetchProductCatalog, fetchProductReviews } from "./src/apiSimulator";
+import { fetchProductCatalog, fetchProductReviews, fetchSalesReport } from "./src/apiSimulator";
 
 function fetchData() {
-  fetchProductCatalog()
-    .then((products) => {
-      products.forEach((product) => {
-        console.log(`name: ${product.name}, price: $${product.price}`);
-      });
-      const reviews = products.map((product) => {
-        fetchProductReviews(product.id);
-      });
-      return Promise.all(reviews).then((review) => {});
-    })
-    .then((reviews) => {});
-}
-
-function newFetchData() {
-  fetchProductCatalog()
-    .then((products) => {
-      products.map((product) => {
-        return fetchProductReviews(product.id)
-          .then((review) =>
-            console.log(
-              `Name: ${product.name}, Price: $${
-                product.price
-              }, reviews: ${review.join(" | ")}`
-            )
-          )
-          .catch((e) => {
-            console.error(e);
-          });
-      });
-    })
-    .catch((e) => {
-      console.error(e);
-    })
-    .finally(() => {
-      console.log("All apis have been attempted");
-    });
-}
-
-
-function fetchNewNewData() {
   fetchProductCatalog()
     .then((products) => {
       return Promise.all(
@@ -57,11 +17,19 @@ function fetchNewNewData() {
         reviewProductArray.forEach(({product, reviews}) => {
             console.log(`Name: ${product.name}, Price: $${product.price}, Reviews: ${reviews.join('|')}`)
       })
+       return fetchSalesReport();
+    })
+    .then((salesReport) =>
+    {
+      console.log(`Sales Report: Total Sales: ${salesReport.totalSales}, Units Sold: ${salesReport.unitsSold}, Average price: ${salesReport.averagePrice}`);
     })
     .catch((e) => {
         console.error(e);
     })
+    .finally(() =>{
+      console.log("All apis have been attempted")
+    })
     ;
 }
 
-fetchNewNewData()
+fetchData();

@@ -47,9 +47,16 @@ function fetchNewNewData() {
         reviewProductArray.forEach(({ product, reviews }) => {
             console.log(`Name: ${product.name}, Price: $${product.price}, Reviews: ${reviews.join('|')}`);
         });
+        return (0, apiSimulator_1.fetchSalesReport)();
+    })
+        .then((salesReport) => {
+        console.log(`Sales Report: Total Sales: ${salesReport.totalSales}, Units Sold: ${salesReport.unitsSold}, Average price: ${salesReport.averagePrice}`);
     })
         .catch((e) => {
         console.error(e);
+    })
+        .finally(() => {
+        console.log("All apis have been attempted");
     });
 }
 fetchNewNewData();

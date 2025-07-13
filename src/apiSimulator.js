@@ -6,7 +6,7 @@ exports.fetchSalesReport = fetchSalesReport;
 function fetchProductCatalog() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() < 0.8) {
+            if (Math.random() < 0.9) {
                 resolve([
                     { id: 1, name: "Laptop", price: 1600 },
                     { id: 2, name: "Minecraft", price: 15 },
@@ -49,7 +49,7 @@ function fetchProductReviews(productId) {
     ];
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() < 0.8) {
+            if (Math.random() < 0.9) {
                 resolve(fullReviewArray[productId - 1]);
             }
             else
@@ -60,7 +60,7 @@ function fetchProductReviews(productId) {
 function fetchSalesReport() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() < 0.8) {
+            if (Math.random() < 0.9) {
                 resolve({ totalSales: 10100, unitsSold: 77, averagePrice: 131.17 });
             }
             else {
